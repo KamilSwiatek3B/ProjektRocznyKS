@@ -2,7 +2,8 @@ const express = require('express');
 const Datastore = require('nedb');
 
 const app = express();
-app.listen(5500, () => console.log('listening at 5500'));
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log('listening at 5500'));
 app.use(express.static('../PSI - ProjektRoczny'));
 app.use(express.json({
     limit: '1mb'
