@@ -1,0 +1,44 @@
+body {
+    font-family: VT323;
+    background-color: var(--viol6);
+}
+
+nav {
+    display: flex;
+    height: 15vh;
+    width: 100%;
+    position: sticky;
+    top: 0;
+}
+
+nav>* {
+    flex: 1 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    text-decoration: none;
+    color: black;
+}
+
+.play {
+    background-color: var(--viol1);
+}
+
+.score {
+    background-color: var(--viol2);
+}
+
+.login {
+    background-color: var(--viol3);
+}
+
+/*style for SVG*/
+path {
+    fill: var(--viol6);
+}
+
+svg {
+    width: 15%;
+    margin: 10px;
+}
