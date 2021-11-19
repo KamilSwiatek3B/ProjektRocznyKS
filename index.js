@@ -3,8 +3,9 @@ const Datastore = require('nedb');
 
 const app = express();
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log('listening at 5500'));
-app.use(express.static('../PSI - ProjektRoczny'));
+app.listen(port, () => console.log(`listening at ${port}`));
+//app.use(express.static('../PSI - ProjektRoczny'));
+app.use(express.static(__dirname + '/public'));
 app.use(express.json({
     limit: '1mb'
 }));
@@ -56,7 +57,7 @@ app.post('/register', (request, response) => {
     }, (err, docs) => {
         if (err) {
             console.log(err);
-        } else if (request.body.cd != process.env.ADMIN_KEY) {
+        } else if (request.body.cd !== '437437') {
             response.json({
                 validity: 'code'
             });
