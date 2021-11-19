@@ -56,7 +56,7 @@ app.post('/register', (request, response) => {
     }, (err, docs) => {
         if (err) {
             console.log(err);
-        } else if (request.body.cd !== '437437') {
+        } else if (request.body.cd != process.env.ADMIN_KEY) {
             response.json({
                 validity: 'code'
             });
