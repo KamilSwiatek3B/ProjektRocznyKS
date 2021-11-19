@@ -1,0 +1,34 @@
+.container{
+    display:flex;
+    width:100%;
+    border-bottom:5px black solid;
+    height:40px;
+}
+
+.container > * {
+    border-left:solid 5px black;
+    border-right:solid 5px black;
+    flex:1;
+    font-size: 2rem;
+    text-align: center;
+    text-decoration: none;
+    color:black;
+}
+
+.gridContainer{
+    display:grid;
+    margin:5%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.welcome{
+    grid-column:1/3;
+    grid-row:1/2;
+    font-size: 3rem;
+}
+
+.gridContainer>img{
+    grid-column: 3/4;
+    grid-row:1/2;
+}
