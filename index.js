@@ -1,22 +1,45 @@
+const { request, response } = require('express');
 const express = require('express');
 const Datastore = require('nedb');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5500;
 app.listen(port, () => console.log(`listening at ${port}`));
-//app.use(express.static('../PSI - ProjektRoczny'));
+// app.use(express.static('../PSI - ProjektRoczny'));
 app.use(express.static(__dirname + '/public'));
+console.log(__dirname);
 app.use(express.json({
     limit: '1mb'
 }));
 
+//all databases
 const accounts = new Datastore('database/accounts.db');
 const failedLog = new Datastore('database/failedLog.db');
+const ShopCount = new Datastore('database/votes.db');
+ShopCount.loadDatabase();
 accounts.loadDatabase();
 failedLog.loadDatabase();
 
-// acounts.insert({username: 'Hero', password: 'Goku'});
 
+
+//ShopRequest on main.html request
+app.get('/shop', (request, response) => {
+    ShopCount.find({ votes: { $gt: 1 } }, (err, docs) => {
+        if(err){
+            console.log(err);
+            return 0;
+        }
+        response.json({ votes: docs[0].votes });
+    });
+});
+
+//one more shop vote request
+app.post('/shop', (request, response) =>{
+    ShopCount.update({ votes: { $gt: 1 } }, { $inc: { votes: 1 } }, function () {});
+    response.json({ status: 'ok' });
+})
+
+//login validation request
 app.post('/index', (request, response) => {
     console.log(request.body);
     accounts.find({

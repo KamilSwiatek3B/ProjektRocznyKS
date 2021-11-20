@@ -9,6 +9,13 @@
   <link rel="stylesheet" href="./css's/basic.css">
   <link rel="stylesheet" href="./css's/main.css">
   <link rel="stylesheet" href="./css's/index.css">
+  <script>
+    let logged = false;
+    votes = 0;
+    if(document.cookie!=''){
+      logged=true;
+    }
+  </script>
 </head>
 
 <body>
@@ -157,7 +164,13 @@
   <main class="gridContainer">
     <article class="welcome">Welcome, this site is a mini-competition game center. From this idea came the name:"MiniArena". Main idea is for you to <a href="login.html">login</a> under representing you name(username) and <a href="games.html">fight in games</a> for the 1st place on <a href="games.html">score panel</a>.</article>
     <img src="#" alt="Some sketchy image like logo">
+    <h3 class="btnInfo">I also plan to make a shop and ing-game earned points for cosmetics like colored name on scoreboard.<br>If you like idea and want me to torture myself to implement, hit the button(only for logged users) -></h3>
+    <div class="counter">
+      <button class="CountBtn" onload=ShopCheck></button>
+      <p>The more there is, the more my motivation is. But please do not spam TOO much c:</p>
+    </div>
   </main>
+  <script src="scripts/main.js"></script>
 </body>
 
 </html>
