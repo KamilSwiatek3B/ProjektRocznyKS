@@ -1,0 +1,43 @@
+@font-face {
+    font-family: VT323;
+    src: url('../FONTS/VT323FONT/VT323-Regular.ttf')
+}
+
+*{
+    padding: 0;
+    margin:0;
+}
+
+body{
+    font-family: VT323;
+    background-color: gray;
+}
+
+.objective{
+    font-size: 3rem;
+}
+
+main{
+    display: flex;
+    border-bottom: 3px black dashed;
+    justify-content: space-evenly;
+    padding-top:100px;
+}
+
+.start{
+    width:200px;
+    height:50px;
+    font-family: VT323;
+    font-size: 2rem;
+}
+
+article{
+    font-size: 2rem;
+}
+
+footer{
+    display:flex;
+    justify-content: center;
+    font-size: 3rem;
+    margin-top: 20px;
+}
