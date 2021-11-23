@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const Datastore = require('nedb');
 
@@ -6,7 +7,6 @@ const port = process.env.PORT || 5500;
 app.listen(port, () => console.log(`listening at ${port}`));
 app.use(express.static('../PSI - ProjektRoczny'));
 // app.use(express.static(__dirname + '/public'));
-console.log(__dirname);
 app.use(express.json({
     limit: '1mb'
 }));
@@ -15,15 +15,20 @@ app.use(express.json({
 const accounts = new Datastore('database/accounts.db');
 const failedLog = new Datastore('database/failedLog.db');
 const ShopCount = new Datastore('database/votes.db');
-const Scores = new Datastore('database/scores.db');
 const BestScores = new Datastore('database/bestScores.db');
 accounts.loadDatabase(); //accounts credentials
 failedLog.loadDatabase(); //logs off any failed logs
 ShopCount.loadDatabase(); //keeps track of shop idea votes
-Scores.loadDatabase(); //this is where users scores are
 BestScores.loadDatabase(); //this is where best scores are
 
 
+
+//request for best scores
+app.get('/score', (request, response) => {
+    BestScores.find({}, (err, docs) => {
+        response.json({ data: docs});
+    })
+})
 
 //ShopRequest on main.html request
 app.get('/shop', (request, response) => {
@@ -58,7 +63,6 @@ app.post('/index', (request, response) => {
                 username: JSON.stringify(request.body.us)
             });
         } else {
-            console.log("invalid")
             let date = new Date();
             let time = date.toUTCString();
             failedLog.insert({
@@ -119,12 +123,9 @@ function insertBestScore(game,score,us){
         }
         if(docs[0].score>score || docs[0].score==0){
             BestScores.update({ game: game }, { $set: { score: score, username: us } }, {}, (err, numReplaced) =>{
-                console.log(numReplaced);
+                //console.log(numReplaced);
             });
-            console.log('success');
         }
-        // console.log(docs[0].score);
-        console.log('besty dziaa');
     })
 
 }
@@ -138,10 +139,8 @@ function insertScore(game,score,us){
             console.log(err);
             return 0;
         }
-        // console.log(docs[0][game]);
         if(docs[0][game]>score || docs[0][game]==0){
             accounts.update({ username: us }, { $set: {[game]: score} }, {}, (err, numReplaced) =>{
-                //console.log(numReplaced);
             });
         }
     });
