@@ -12,6 +12,26 @@ let count=0;            //the 1 2 3 countdown at the start of each game
 let idInterval;         //exists so interval in init() works
 let gameStarted = false;//if flase, game do not read keystrokes
 
+//sends score to servere
+async function sendScore(avg){
+    let usernameCut = document.cookie.substring(10).length;
+    data={
+        game: "fastKey",
+        score: average,
+        us: document.cookie.substring(10).substring(usernameCut-1,0)
+    };
+    const options = {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    };
+    const response = await fetch('/score', options);
+    const validation = await response.json();
+    console.log(validation);
+}
+
 //function picking random number and assigning key for it from pool[]
 const pickPool = function(){
     let realRand = Math.round(Math.random()*100+1);
@@ -28,12 +48,13 @@ const body = document.getElementsByTagName('body')[0].onkeyup = (e) =>{
     let ev = e;
     if(gameStarted && ev.key==vision.innerHTML){
         timeEnd.push(Date.now());
-        if(timeEnd.length==10){
+        if(timeEnd.length==3){
             gameStarted=false;
             console.log(counTime());
             score.innerHTML=timePoints;
             score2.innerHTML=average;
             timePoints=[];      //reset
+            sendScore(average);
             average = 0;        //reset
         }
         changeGoal();
@@ -42,13 +63,13 @@ const body = document.getElementsByTagName('body')[0].onkeyup = (e) =>{
 
 //counts time points
 function counTime(){
-    for(let i =0;i<10;i++){
+    for(let i =0;i<3;i++){
         timePoints[i]=timeEnd[i]-timeStart[i];
     }
-    for(let i =0;i<10;i++){
+    for(let i =0;i<3;i++){
         average += timePoints[i];
     }
-    average = Math.round(average/=10);
+    average = Math.round(average/=3);
     return timePoints, average;
 }
 
