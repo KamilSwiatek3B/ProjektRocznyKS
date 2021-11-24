@@ -1,6 +1,29 @@
 const loginStatus = document.querySelector('.login-status');
 
+async function sendScore(konto){
+    if(document.cookie!=''){
+        console.log('sending!!!!!!!!!!!!!');
+        let usernameCut = document.cookie.substring(10).length;
+        data={
+            game: "Roulette",
+            score: konto,
+            us: document.cookie.substring(10).substring(usernameCut-1,0)
+        };
+        const options = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        };
+        const response = await fetch('/score', options);
+        const validation = await response.json();
+    }
+}
+
 async function updateMoney(konto) {
+    sendScore(konto);
+    console.log('sending?');
     let usernameCut = document.cookie.substring(10).length;
     us = document.cookie.substring(10).substring(usernameCut - 1, 0);
     credentials = {

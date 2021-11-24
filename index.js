@@ -1,4 +1,6 @@
-const { response } = require('express');
+const {
+    response
+} = require('express');
 const express = require('express');
 const Datastore = require('nedb');
 
@@ -24,21 +26,31 @@ BestScores.loadDatabase(); //this is where best scores are
 //Best scores inserting scheme
 // BestScores.insert({game:'fastKey', username: '', score: 0});
 // BestScores.insert({game:'spamer', username: '', score: 0});
-// BestScores.insert({game:'spin', username: '', score: 0});
+// BestScores.insert({game:'Roulette', username: '', score: 0});
 
 
 //updates money on account with each roll
 app.post('/updateMoney', (request, response) => {
-    accounts.update({username: request.body.us}, {$set: {spin: request.body.konto} }, {}, (err, numReplaced) => {
+    accounts.update({
+        username: request.body.us
+    }, {
+        $set: {
+            Roulette: request.body.konto
+        }
+    }, {}, (err, numReplaced) => {
         accounts.loadDatabase(); //accounts credentials
     });
 })
 
 //get money for roulette
-app.post('/getMoney', (request, response) =>{
-    accounts.find({username: request.body.us}, (err, docs) =>{
-        if(docs[0]!=null){
-            response.json({ status: docs[0].spin });
+app.post('/getMoney', (request, response) => {
+    accounts.find({
+        username: request.body.us
+    }, (err, docs) => {
+        if (docs[0] != null) {
+            response.json({
+                status: docs[0].Roulette
+            });
         }
     })
 })
@@ -46,25 +58,43 @@ app.post('/getMoney', (request, response) =>{
 //request for best scores
 app.get('/score', (request, response) => {
     BestScores.find({}, (err, docs) => {
-        response.json({ data: docs});
+        response.json({
+            data: docs
+        });
     })
 })
 
 //ShopRequest on main.html request
 app.get('/shop', (request, response) => {
-    ShopCount.find({ votes: { $gt: 1 } }, (err, docs) => {
-        if(err){
+    ShopCount.find({
+        votes: {
+            $gt: 1
+        }
+    }, (err, docs) => {
+        if (err) {
             console.log(err);
             return 0;
         }
-        response.json({ votes: docs[0].votes });
+        response.json({
+            votes: docs[0].votes
+        });
     });
 });
 
 //one more shop vote request
-app.post('/shop', (request, response) =>{
-    ShopCount.update({ votes: { $gt: 1 } }, { $inc: { votes: 1 } }, function () {});
-    response.json({ status: 'ok' });
+app.post('/shop', (request, response) => {
+    ShopCount.update({
+        votes: {
+            $gt: 1
+        }
+    }, {
+        $inc: {
+            votes: 1
+        }
+    }, function () {});
+    response.json({
+        status: 'ok'
+    });
 })
 
 //login validation request
@@ -120,9 +150,9 @@ app.post('/register', (request, response) => {
                 password: `${request.body.ps}`,
                 fastKey: 0,
                 spamer: 0,
-                spin: 1000
+                Roulette: 1000
             });
-            
+
             response.json({
                 validity: 'free'
             });
@@ -131,40 +161,86 @@ app.post('/register', (request, response) => {
 });
 
 //insterting new Best scores if better
-function insertBestScore(game,score,us){
-    BestScores.find({ game: game }, (err, docs) =>{
-        if(err){
+function insertBestScore(game, score, us) {
+    BestScores.find({
+        game: game
+    }, (err, docs) => {
+        if (err) {
             console.log(err);
             return 0;
         }
-        if(docs[0].score>score || docs[0].score==0){
-            BestScores.update({ game: game }, { $set: { score: score, username: us } }, {}, (err, numReplaced) =>{
-                //console.log(numReplaced);
-            });
+        if (game == 'fastKey') {
+            if (docs[0].score > score || docs[0].score == 0) {
+                BestScores.update({
+                    game: game
+                }, {
+                    $set: {
+                        score: score,
+                        username: us
+                    }
+                }, {}, (err, numReplaced) => {
+                    //console.log(numReplaced);
+                    BestScores.loadDatabase(); //this is where best scores are
+
+                });
+            }
+        } else {
+            if (docs[0].score < score || docs[0].score == 0) {
+                BestScores.update({
+                    game: game
+                }, {
+                    $set: {
+                        score: score,
+                        username: us
+                    }
+                }, {}, (err, numReplaced) => {
+                    //console.log(numReplaced);
+                    BestScores.loadDatabase(); //this is where best scores are
+
+                });
+            }
         }
     })
 
 }
 
 //inserting new scores to user if better
-function insertScore(game,score,us){
+function insertScore(game, score, us) {
     accounts.find({
         username: us
     }, (err, docs) => {
-        if(err){
+        if (err) {
             console.log(err);
             return 0;
         }
-        if(docs[0][game]>score || docs[0][game]==0){
-            accounts.update({ username: us }, { $set: {[game]: score} }, {}, (err, numReplaced) =>{
-            });
+        if (game == 'fastKey') {
+            if (docs[0][game] > score || docs[0][game] == 0) {
+                accounts.update({
+                    username: us
+                }, {
+                    $set: {
+                        [game]: score
+                    }
+                }, {}, (err, numReplaced) => {});
+            }
+        } else {
+            if (docs[0][game] < score || docs[0][game] == 0) {
+                accounts.update({
+                    username: us
+                }, {
+                    $set: {
+                        [game]: score
+                    }
+                }, {}, (err, numReplaced) => {});
+            }
         }
     });
-    insertBestScore(game,score,us);
+    insertBestScore(game, score, us);
 }
 //score updater TO DO
-app.post('/score', (request, response) =>{
-    console.log(request.body);
+app.post('/score', (request, response) => {
     insertScore(request.body.game, request.body.score, request.body.us);
-    response.json({ status: 'ok' });
+    response.json({
+        status: 'ok'
+    });
 })
