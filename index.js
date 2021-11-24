@@ -21,7 +21,27 @@ failedLog.loadDatabase(); //logs off any failed logs
 ShopCount.loadDatabase(); //keeps track of shop idea votes
 BestScores.loadDatabase(); //this is where best scores are
 
+//Best scores inserting scheme
+// BestScores.insert({game:'fastKey', username: '', score: 0});
+// BestScores.insert({game:'spamer', username: '', score: 0});
+// BestScores.insert({game:'spin', username: '', score: 0});
 
+
+//updates money on account with each roll
+app.post('/updateMoney', (request, response) => {
+    accounts.update({username: request.body.us}, {$set: {spin: request.body.konto} }, {}, (err, numReplaced) => {
+        accounts.loadDatabase(); //accounts credentials
+    });
+})
+
+//get money for roulette
+app.post('/getMoney', (request, response) =>{
+    accounts.find({username: request.body.us}, (err, docs) =>{
+        if(docs[0]!=null){
+            response.json({ status: docs[0].spin });
+        }
+    })
+})
 
 //request for best scores
 app.get('/score', (request, response) => {
@@ -78,9 +98,6 @@ app.post('/index', (request, response) => {
     });
 });
 
-// BestScores.insert({game:'fastKey', username: '', score: 0});
-// BestScores.insert({game:'spamer', username: '', score: 0});
-// BestScores.insert({game:'aimer', username: '', score: 0});
 //creating accounts request
 app.post('/register', (request, response) => {
     console.log(request.body); //us ps cd
@@ -103,8 +120,7 @@ app.post('/register', (request, response) => {
                 password: `${request.body.ps}`,
                 fastKey: 0,
                 spamer: 0,
-                aimer: 0
-                
+                spin: 1000
             });
             
             response.json({

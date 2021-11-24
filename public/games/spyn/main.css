@@ -1,0 +1,239 @@
+/* info bar */
+.top-stat-bar {
+    display: flex;
+    justify-content: center;
+    width: 400px;
+    margin: 40px auto;
+    background-color: #3C3C3C;
+}
+
+.back{
+    margin-top:20px;
+    display:flex;
+    justify-content: center;
+    font-size: 3rem;
+}
+
+.container{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.container>.asideHelp{
+    border: 3px red solid;
+    width: 10%;
+}
+
+/* fortune wheel */
+
+.fortune-wheel {
+    transition: all 3s;
+    margin: 0px auto;
+    display: block;
+    width: 100%;
+    max-width: 430px;
+    cursor: pointer;
+    z-index: 10;
+    background-image: url(./megHorni.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.fortune-arrow {
+    margin: 5px auto;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 30px 10px;
+    border-color: transparent transparent #ff006a transparent;
+}
+
+/* containers */
+
+.bet-preset-buttons {
+    text-align: center;
+}
+
+.bet-set-amount-indicator {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.bet-set-type-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: 0px auto;
+    height: 80px;
+    justify-content: space-between;
+}
+
+/* buttons and indicators */
+
+/* .bet-start-button {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border-style: none;
+    margin: -350px auto 200px auto;
+    display: block;
+    background-image: url(/img/happyKek.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: all 3s ease-in-out;
+    z-index: -10;
+} */
+
+.bet-preset-buttons input {
+    border-radius: 100px;
+    border-style: none;
+}
+
+.bet-preset-buttons button {
+    border-radius: 100px;
+    border-style: none;
+    margin: 10px 0px;
+    transition: all .3s ease;
+    background-color: #365387;
+    color: #fff;
+    cursor: pointer;
+}
+
+.bet-preset-buttons button:hover {
+    background-color: #fff;
+    color: #365387;
+}
+
+.bet-set-amount-indicator p {
+    display: inline-block;
+}
+
+.bet-set-type-buttons button {
+    flex: 0 0 300px;
+    display: block;
+    border-radius: 100px;
+    border-style: none;
+    flex-wrap: wrap;
+    margin: 10px 0px;
+    transition: all .5s ease;
+    cursor: pointer;
+}
+
+.bet-set-type-buttons button:hover {
+    transform: translateY(-4px);
+}
+
+/* multiplyer icons */
+
+.bet2 {
+    background-color: #404040;
+    color: #fff;
+}
+
+.bet2::after {
+    content: '2x';
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    display: block;
+    top: 10px;
+    background-color: #fff;
+    color: #404040;
+    line-height: 2em;
+    margin-top: -69px;
+    margin-left: -6px;
+    font-size: 2.4rem;
+}
+
+.bet3 {
+    background-color: #C8354E;
+    color: #fff;
+}
+
+.bet3::after {
+    content: '3x';
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    display: block;
+    top: 10px;
+    background-color: #fff;
+    color: #C8354E;
+    line-height: 2em;
+    margin-top: -69px;
+    margin-left: -6px;
+    font-size: 2.4rem;
+}
+
+.bet5 {
+    background-color: #45B5DA;
+    color: #fff;
+}
+
+.bet5::after {
+    content: '5x';
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    display: block;
+    top: 10px;
+    background-color: #fff;
+    color: #45B5DA;
+    line-height: 2em;
+    margin-top: -69px;
+    margin-left: -6px;
+    font-size: 2.4rem;
+}
+
+.bet50 {
+    background-color: #FFC870;
+    color: #fff;
+}
+
+.bet50::after {
+    content: '50x';
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    display: block;
+    top: 10px;
+    background-color: #fff;
+    color: #FFC870;
+    line-height: 2em;
+    margin-top: -69px;
+    margin-left: -6px;
+    font-size: 2.4rem;
+}
+
+
+.bety p {
+    font-size: 30px;
+}
+
+input {
+    width: 100px;
+}
+
+label {
+    font-size: 20px;
+    ;
+}
+
+
+.sumy>p {
+    flex: 1;
+}
+
+.history {
+    display: flex;
+    flex-direction: column;
+}
+
+.hitem {
+    width: 20px;
+    height: 20px;
+    background-color: #252526;
+    margin-top: 10px;
+}
