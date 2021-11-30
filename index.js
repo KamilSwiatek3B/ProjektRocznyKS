@@ -55,6 +55,19 @@ app.post('/getMoney', (request, response) => {
     })
 })
 
+//get sneezes for spamer
+app.post('/getSneeze', (request, response) => {
+    accounts.find({
+        username: request.body.us
+    }, (err, docs) => {
+        if (docs[0] != null) {
+            response.json({
+                status: docs[0].spamer
+            });
+        }
+    })
+})
+
 //request for best scores
 app.get('/score', (request, response) => {
     BestScores.find({}, (err, docs) => {
@@ -222,6 +235,7 @@ function insertScore(game, score, us) {
                         [game]: score
                     }
                 }, {}, (err, numReplaced) => {});
+                accounts.loadDatabase(); //accounts credentials
             }
         } else {
             if (docs[0][game] < score || docs[0][game] == 0) {
@@ -232,6 +246,7 @@ function insertScore(game, score, us) {
                         [game]: score
                     }
                 }, {}, (err, numReplaced) => {});
+                accounts.loadDatabase(); //accounts credentials
             }
         }
     });

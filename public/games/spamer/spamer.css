@@ -1,0 +1,21 @@
+body {
+    background-size: cover; 
+}
+
+/* body:active {
+    background-image: url("img/smolGF.gif");
+    background-size: cover;
+} */
+
+h1 {
+    color:white;
+    height:1000px;
+    width:100%;
+}
+
+.linkBack{
+    color:white;
+    height:1000px;
+    width:100%;
+    font-size: 3rem;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ram sneeze collector</title>
+    <link rel=stylesheet type="text/css" href="spamer.css" />
+</head>
+
+<body>
+    <h1 class="licznik">Click to sneeze</h1><a class="linkBack" href="/public/games.html">Back to GAMES</a>
+    <script>
+        const pole = document.querySelector('.licznik');
+        const cial = document.querySelector('body');
+        let licznik = 0;
+        let audio = new Audio('snez.mp3');
+        audio.volume = 0.5;
+
+        async function sendScore(licznik) {
+            if (document.cookie != '') {
+                let usernameCut = document.cookie.substring(10).length;
+                data = {
+                    game: "spamer",
+                    score: licznik,
+                    us: document.cookie.substring(10).substring(usernameCut - 1, 0)
+                };
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                };
+                const response = await fetch('/score', options);
+                const validation = await response.json();
+            }
+        }
+
+        async function getScore() {
+            let usernameCut = document.cookie.substring(10).length;
+            us = document.cookie.substring(10).substring(usernameCut - 1, 0);
+            credentials = {
+                us: us
+            };
+            const options = {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(credentials)
+            };
+            
+            const response = await fetch('/getSneeze', options);
+            console.log('sneezed');
+            const data = await response.json().then((data) => {
+                konto = data.status;
+                pole.innerHTML = `${konto} sneezes`;
+                licznik=konto;
+            });
+            // return data.money;
+        }
+
+        cial.style.backgroundImage = "url('1ref.png')";
+
+        function kich() {
+            audio.currentTime = 0;
+            licznik++;
+            if (licznik % 10 == 0) {
+                sendScore(licznik);
+            }
+            audio.play();
+            this.innerHTML = `${licznik} sneezes`;
+            cial.style.backgroundImage = 'url("2ref.png")';
+        }
+
+        function unKich() {
+            cial.style.backgroundImage = "url('1ref.png')";
+        }
+
+        pole.addEventListener('mousedown', kich);
+        pole.addEventListener('mouseup', unKich);
+
+        getScore();
+    </script>
+</body>
+
+</html>
