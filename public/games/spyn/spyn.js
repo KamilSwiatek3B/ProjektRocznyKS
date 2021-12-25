@@ -1,4 +1,18 @@
+//i realised too late that i should have managed all the
+// money counting on the server. Not giving users control
+// over their cash.
 const loginStatus = document.querySelector('.login-status');
+const dailyGet = document.querySelector('.daily');
+const dailyFeed = document.querySelector('.dailyFeed');
+
+let usernameCut = document.cookie.substring(10).length;
+let us = document.cookie.substring(10).substring(usernameCut - 1, 0);
+if(us!==""){
+    loginStatus.innerHTML = "Logged as: " + us;
+}else{
+    loginStatus.innerHTML = "Logged as: NONE";
+}
+console.log('T');
 
 async function sendScore(konto){
     if(document.cookie!=''){
@@ -23,7 +37,6 @@ async function sendScore(konto){
 
 async function updateMoney(konto) {
     sendScore(konto);
-    console.log('sending?');
     let usernameCut = document.cookie.substring(10).length;
     us = document.cookie.substring(10).substring(usernameCut - 1, 0);
     credentials = {
@@ -47,7 +60,6 @@ async function updateMoney(konto) {
 async function getMoney() {
     let usernameCut = document.cookie.substring(10).length;
     us = document.cookie.substring(10).substring(usernameCut - 1, 0);
-    loginStatus.innerHTML = "Logged as: " + us;
     credentials = {
         us: us
     };
@@ -68,6 +80,34 @@ async function getMoney() {
     // return data.money;
 }
 
+dailyGet.addEventListener('click', async ()=> {
+    let usernameCut = document.cookie.substring(10).length;
+    us = document.cookie.substring(10).substring(usernameCut - 1, 0);
+    credentials = {
+        us: us,
+        flag: true
+    };
+    const options = {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(credentials)
+    };
+
+    const response = await fetch('/getMoney', options);
+    const data = await response.json().then((data) => {
+        if(data.status==true){
+            konto += 100;
+            dailyFeed.innerHTML="Gathered!";
+        }else{
+            console.log(data.status);
+            dailyFeed.innerHTML="Daily already gathered <b>Wait till midnight</b>";
+        }
+    });
+    saldo.innerHTML = `Balance: ${konto}`;
+    updateMoney(konto);
+})
 
 
 //!!! ---> This code is not maintained well and poor written, as i was learning js basics at the time <--- !!!

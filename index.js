@@ -31,28 +31,39 @@ BestScores.loadDatabase(); //this is where best scores are
 
 //updates money on account with each roll
 app.post('/updateMoney', (request, response) => {
-    accounts.update({
-        username: request.body.us
-    }, {
-        $set: {
-            Roulette: request.body.konto
-        }
+    accounts.update({username: request.body.us}, {$set: {Roulette: request.body.konto}
     }, {}, (err, numReplaced) => {
         accounts.loadDatabase(); //accounts credentials
     });
 })
-
 //get money for roulette
 app.post('/getMoney', (request, response) => {
-    accounts.find({
-        username: request.body.us
-    }, (err, docs) => {
-        if (docs[0] != null) {
+    if(request.body.flag==true){
+        accounts.find({username: `${request.body.us}`}, (err, docs) => {
+            if (err) {
+                console.log(err);
+            }else if(docs[0].Daily!=Math.floor(Date.now()/(1000*60*60*24))){
+                response.json({
+                    status: true
+                });
+            }else{
+                response.json({
+                    status: false
+                });
+            }
+        });
+        accounts.update({username: request.body.us}, {$set: {Daily: Math.floor(Date.now()/(1000*60*60*24))}
+        }, {}, (err, numReplaced) => {
+            accounts.loadDatabase(); //accounts credentials
+        });
+    }else{
+        accounts.find({username: request.body.us}, (err, docs) => {
+            if (docs[0] == null) return 0;
             response.json({
                 status: docs[0].Roulette
-            });
-        }
-    })
+            });        
+        })
+    }
 })
 
 //get sneezes for spamer
@@ -79,11 +90,7 @@ app.get('/score', (request, response) => {
 
 //ShopRequest on main.html request
 app.get('/shop', (request, response) => {
-    ShopCount.find({
-        votes: {
-            $gt: 1
-        }
-    }, (err, docs) => {
+    ShopCount.find({votes: {$gt: 1}}, (err, docs) => {
         if (err) {
             console.log(err);
             return 0;
@@ -144,9 +151,7 @@ app.post('/index', (request, response) => {
 //creating accounts request
 app.post('/register', (request, response) => {
     console.log(request.body); //us ps cd
-    accounts.find({
-        username: `${request.body.us}`
-    }, (err, docs) => {
+    accounts.find({username: `${request.body.us}`}, (err, docs) => {
         if (err) {
             console.log(err);
         } else if (request.body.cd !== '437437') {
@@ -163,7 +168,8 @@ app.post('/register', (request, response) => {
                 password: `${request.body.ps}`,
                 fastKey: 0,
                 spamer: 0,
-                Roulette: 1000
+                Roulette: 1000,
+                Daily: 1
             });
 
             response.json({
@@ -173,7 +179,7 @@ app.post('/register', (request, response) => {
     });
 });
 
-//insterting new Best scores if better
+//insterting new BEST scores if better
 function insertBestScore(game, score, us) {
     BestScores.find({
         game: game
@@ -217,7 +223,7 @@ function insertBestScore(game, score, us) {
 
 }
 
-//inserting new scores to user if better
+//inserting new SCORES to user if better
 function insertScore(game, score, us) {
     accounts.find({
         username: us
@@ -252,7 +258,7 @@ function insertScore(game, score, us) {
     });
     insertBestScore(game, score, us);
 }
-//score updater TO DO
+//score updater 
 app.post('/score', (request, response) => {
     insertScore(request.body.game, request.body.score, request.body.us);
     response.json({
