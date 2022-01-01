@@ -1,0 +1,74 @@
+@font-face {
+    font-family: VT323;
+    src: url('../FONTS/VT323FONT/VT323-Regular.ttf')
+}
+
+body{
+    font-family: VT323;
+}
+
+.stand{
+    background-image: url("media/box_stand.png");
+    background-size: cover;
+}
+.punch{
+    background-image: url("media/box_punch.png");
+    background-size: cover;
+}
+#boxxer{
+    width: 300px;
+    height: 300px;
+    border: 3px black solid;
+}
+
+#line{
+    position:absolute;
+    width:10px;
+    height:350px;
+    background-color: red;
+    /* Line position */
+    left:0%;
+}
+
+#hitbox{
+    width:100%;
+    height: 350px;
+}
+
+.container{
+    display:flex;
+}
+
+#bag{
+    border: 3px black solid;
+    margin-top:-70px;
+    transition:0.25s;
+}
+
+#info{
+    position:absolute;
+    left:50%;
+    font-size: 50px;
+    color:red;
+    background-color:black;
+    width:auto;
+    height:100px;
+    display:none;
+}
+
+#Play{
+    background-color: rgb(19, 177, 19);
+    font-size: 35px;
+    font-family: VT323;
+    border:none;
+}
+#Pause{
+    background-color: rgb(179, 27, 27);
+    font-size: 35px;
+    font-family: VT323;
+    border:none;
+}
+/*temp*/
+a{
+    font-size: 50px;
+}
