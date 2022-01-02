@@ -9,6 +9,7 @@ let timeEnd = [];       //collects each time when succesfully typed goal
 let timePoints = [];    //collects each timeframe for succesfully hitting goal
 let average = 0;        //average time from timePoints array
 let count=0;            //the 1 2 3 countdown at the start of each game
+const counText = ['Ready?', 'Set!', 'GO!!']; //the 1 2 3 countdown at the start of each game
 let idInterval;         //exists so interval in init() works
 let gameStarted = false;//if flase, game do not read keystrokes
 let initFlagJam = true;//protects game from starting more than one round
@@ -108,8 +109,10 @@ function init(){
 }
 function countDown(){
     count++;
-    vision.innerHTML=count;
+    vision.style.color="red";
+    vision.innerHTML=counText[count-1];
     if(count>3){
+        vision.style.color="black";
         stop();
         gameStarted=true;
         changeGoal();
