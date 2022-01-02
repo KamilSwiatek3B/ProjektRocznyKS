@@ -103,13 +103,14 @@ app.get('/shop', (request, response) => {
 
 //one more shop vote request
 app.post('/shop', (request, response) => {
+    console.log(request.body);
     ShopCount.update({
         votes: {
             $gt: 1
         }
     }, {
         $inc: {
-            votes: 1
+            votes: request.body.inc
         }
     }, function () {});
     response.json({
