@@ -25,9 +25,11 @@ body{
     position:absolute;
     width:10px;
     height:350px;
-    background-color: red;
+    /* background-color: red; */
     /* Line position */
-    left:0%;
+    /* left:0%; */
+    border-right: 8px solid red; 
+    margin-left: -20px; /*to i to wyżej */
 }
 
 #hitbox{
@@ -67,6 +69,10 @@ body{
     font-size: 35px;
     font-family: VT323;
     border:none;
+}
+#init{
+    background-color:coral;
+    font-size: 40px;
 }
 /*temp*/
 a{
