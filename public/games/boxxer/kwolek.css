@@ -28,15 +28,9 @@ body{
     height:350px;
     /* background-color: red; */
     /* Line position */
-<<<<<<< HEAD
     left:0%;
     /* border-right: 8px solid red;  */
     /* margin-left: -20px; to i to wyżej */
-=======
-    /* left:0%; */
-    border-right: 8px solid red; 
-    margin-left: -20px; /*to i to wyżej */
->>>>>>> 25b5fdc0f5f52f99688678fbde969e7b0cc1cad9
 }
 
 #hitbox{
