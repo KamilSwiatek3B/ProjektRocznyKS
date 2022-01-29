@@ -5,6 +5,7 @@
 
 body{
     font-family: VT323;
+    background-color: gray;
 }
 
 .stand{
@@ -28,6 +29,8 @@ body{
     background-color: red;
     /* Line position */
     left:0%;
+    /* border-right: 8px solid red;  */
+    /* margin-left: -20px; to i to wyżej */
 }
 
 #hitbox{
@@ -67,6 +70,21 @@ body{
     font-size: 35px;
     font-family: VT323;
     border:none;
+}
+.music{
+    background-color: pink;
+    height:auto;
+    position:absolute;
+    right:20px;
+    top:20px;
+}
+.music>p{
+    display:inline;
+    font-size: 25px;
+}
+#init{
+    background-color:coral;
+    font-size: 40px;
 }
 /*temp*/
 a{
