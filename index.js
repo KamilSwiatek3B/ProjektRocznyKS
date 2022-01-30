@@ -27,6 +27,7 @@ BestScores.loadDatabase(); //this is where best scores are
 // BestScores.insert({game:'fastKey', username: '', score: 0});
 // BestScores.insert({game:'spamer', username: '', score: 0});
 // BestScores.insert({game:'Roulette', username: '', score: 0});
+// BestScores.insert({game:'Boxxer', username: '', score: 0});
 
 
 //updates money on account with each roll
@@ -170,7 +171,8 @@ app.post('/register', (request, response) => {
                 fastKey: 0,
                 spamer: 0,
                 Roulette: 1000,
-                Daily: 1
+                Daily: 1,
+                Boxxer: 0
             });
 
             response.json({
@@ -226,6 +228,8 @@ function insertBestScore(game, score, us) {
 
 //inserting new SCORES to user if better
 function insertScore(game, score, us) {
+    console.log(game);
+    console.log(us);
     accounts.find({
         username: us
     }, (err, docs) => {

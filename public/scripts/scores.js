@@ -1,7 +1,8 @@
 const games = [
     aimer = document.querySelector('.aimer'),
     spamer = document.querySelector('.spamer'),
-    fastKey = document.querySelector('.fastKey')
+    fastKey = document.querySelector('.fastKey'),
+    boxxer = document.querySelector('.boxxer')
 ]
 
 async function getBests() {

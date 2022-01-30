@@ -6,6 +6,40 @@ const init = document.querySelector('#init');
 let RoundStarted = false; //flag blocking new round if one is started
 let hits = [];
 
+
+let logged = false;
+//checks if user is logged in and sets a flag variable
+const checkLogins = function () {
+    if (document.cookie == '') {
+        logged = false;
+    } else {
+        logged = true;
+    };
+};
+checkLogins();
+
+//sends score to servere
+async function sendScore(average){
+    if(logged){
+        let usernameCut = document.cookie.substring(10).length;
+        data={
+            game: "Boxxer",
+            score: average,
+            us: document.cookie.substring(10).substring(usernameCut-1,0)
+        };
+        const options = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        };
+        const response = await fetch('/score', options);
+        const validation = await response.json();
+    }
+}
+
+
 //music
 const audio = new Audio('media/kapchiptune.ogg');
 const Play = document.querySelector('#Play');
@@ -40,7 +74,6 @@ function punch(points) {
 
 //Displays amount of points/miss/criticall
 function display(points, type) {
-    RoundStarted = false; //false after 10 hits
     if (type == "Miss") {
         info.innerHTML = "Miss!!";
         hits.push(0);
@@ -58,15 +91,22 @@ function display(points, type) {
         info.innerHTML = "";
         info.style.display = "none";
         if (hits.length <= 10) {
-            let TimeBetweenPunch = Math.round(Math.random() * 10); //random number from 0-9 +4
+            let TimeBetweenPunch = Math.round(Math.random() * 10 +1); //random number from 0-9 +1
             setTimeout(start, TimeBetweenPunch * 1000);//TimeBetweenPunch *
         } else {
             let average = 0;
+            RoundStarted = false; //false after 10 hits
             console.log("WITAM");
             for (let i = 0; i < 10; i++) {
                 average += hits[i];
             }
-            console.log(average / 10);
+            average/=10;
+            sendScore(average);
+            info.innerHTML = `Your score on average is ${average}! One more round?`;
+            info.style.display = "block";
+
+            hits=[];
+
         }
     }, 1000);
 }
@@ -74,20 +114,21 @@ function display(points, type) {
 function start() {
     let counter = 0;
     RoundStarted = true;
-    window.addEventListener('keydown', function oke(e) {
+    function hit(e){
         if (e.key == "x") {
             clearInterval(i);
             stop(parseInt(line.style.width));
         }
-        window.removeEventListener('keydown', oke);
-    })
+        window.removeEventListener('keydown', hit);
+    }
+    window.addEventListener('keydown', hit);
     let i = setInterval(function () {
         line.style.width = `${counter}%`
         counter += speed; //speed is 2
-
         if (counter >= 100) {
             clearInterval(i);
             stop("Miss!");
+            window.removeEventListener('keydown', hit);
         }
     }, 10);
 }
@@ -120,5 +161,9 @@ function stop(points) {
 //     }
 // })
 init.addEventListener('click', () => {
-    if (!RoundStarted) start();
+    if (!RoundStarted){
+        info.innerHTML = "";
+        info.style.display = "none";
+        start();
+    }   
 })

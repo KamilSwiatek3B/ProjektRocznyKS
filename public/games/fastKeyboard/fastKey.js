@@ -20,10 +20,8 @@ let logged = false;
 const checkLogins = function () {
     if (document.cookie == '') {
         logged = false;
-        console.log(logged);
     } else {
         logged = true;
-        console.log(logged);
     };
 };
 checkLogins();
