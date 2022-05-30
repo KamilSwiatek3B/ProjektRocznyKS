@@ -92,11 +92,11 @@ function display(points, type) {
         info.style.display = "none";
         if (hits.length <= 10) {
             let TimeBetweenPunch = Math.round(Math.random() * 10 +1); //random number from 0-9 +1
+            if(TimeBetweenPunch>5) TimeBetweenPunch-=4;
             setTimeout(start, TimeBetweenPunch * 1000);//TimeBetweenPunch *
         } else {
             let average = 0;
             RoundStarted = false; //false after 10 hits
-            console.log("WITAM");
             for (let i = 0; i < 10; i++) {
                 average += hits[i];
             }
